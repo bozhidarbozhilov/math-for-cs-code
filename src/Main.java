@@ -11,7 +11,7 @@ public class Main {
      * Recursive method
      * @param a integer
      * @param b integer
-     * @return int
+     * @return gcd integer
      */
     public static int gcd(int a, int b){
         int rem;
@@ -31,7 +31,7 @@ public class Main {
      * hardware that uses binary representation of numbers
      * @param a integer
      * @param b integer
-     * @return int
+     * @return gcd integer
      */
     public static int binaryGCD(int a, int b){
         int x = a;
