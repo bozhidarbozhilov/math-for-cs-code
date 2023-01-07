@@ -1,9 +1,12 @@
-
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println(gcd(21212121,12121212));
-        System.out.println(binaryGCD(21212121,12121212));
+        int[] result = pulverizer(259, 70);
+        for (int i = 0; i < result.length; i++) {
+            System.out.println(result[i]);
+        }
     }
 
     /**
@@ -14,11 +17,13 @@ public class Main {
      * @return gcd integer
      */
     public static int gcd(int a, int b){
+
         int rem;
         if(b == 0){
             return a;
         }else {
             rem = a % b;
+
             return gcd(b,rem);
         }
 
@@ -37,6 +42,7 @@ public class Main {
         int x = a;
         int y = b;
         int e = 1;
+        int counter = 0;
 
         while (x!=0 && y!=0){
             if (x%2==0 && y%2==0){
@@ -51,29 +57,36 @@ public class Main {
                 x -= y;
             }else if(y>x){
                 y -= x;
-            }else if(x==1 || x==y){
+            }else{
                 e = e*x;
                 y=0;
             }
+            counter++;
         }
         return e;
     }
 
-    // TODO pulverizer algorithm
-//    public static void pulverizer(int a, int b){
-//        int x = a;
-//        int y = b;
-//        int oldX, oldY;
-//        int qcnt = x/y;
-//        int rem = x - qcnt*y;
-//        int comb = a - qcnt*b;
-//        while (rem != 0){
-//            x = y;
-//            y = rem;
-//            qcnt = x/y;
-//            rem = x - qcnt*y;
-//            comb = 0;
-//        }
-//        System.out.println();
-//    }
+    /**
+     * source: https://introcs.cs.princeton.edu/java/99crypto/ExtendedEuclid.java.html
+     * return the greatest common divisor and linear combination of gcd
+     * gcd(a,b) = sa + tb
+     * @param a
+     * @param b
+     * @return An array {int gcd(a,b), int s,int t}
+     */
+    public static int[] pulverizer(int a, int b){
+
+        if (b==0) {
+            return new int[] {a, 1 ,0};
+        }
+        else{
+            int[] values = pulverizer(b, a%b);
+            int d = values[0];
+            int s = values[2];
+            int t = values[1] - (a/b)*values[2];
+            return new int[] {d, s, t};
+        }
+
+    }
+
 }
