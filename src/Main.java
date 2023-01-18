@@ -3,10 +3,8 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        int[] result = pulverizer(259, 70);
-        for (int i = 0; i < result.length; i++) {
-            System.out.println(result[i]);
-        }
+        System.out.println(binPulverizer(259, 70));
+
     }
 
     /**
@@ -70,8 +68,8 @@ public class Main {
      * source: https://introcs.cs.princeton.edu/java/99crypto/ExtendedEuclid.java.html
      * return the greatest common divisor and linear combination of gcd
      * gcd(a,b) = sa + tb
-     * @param a
-     * @param b
+     * @param a int
+     * @param b int
      * @return An array {int gcd(a,b), int s,int t}
      */
     public static int[] pulverizer(int a, int b){
@@ -86,6 +84,67 @@ public class Main {
             int t = values[1] - (a/b)*values[2];
             return new int[] {d, s, t};
         }
+
+    }
+
+    /**
+     * source: https://github.com/spamegg1/Math-for-CS-solutions
+     * return the greatest common divisor and linear combination of gcd
+     * gcd(a,b) = sa + tb
+     * @param a int
+     * @param b int
+     * @return String gcd(a,b) = s.a + t.b
+     */
+    public static String binPulverizer(int a, int b){
+        int s = a;
+        int t = b;
+        int e = 1;
+
+        while(s%2==0 && t%2==0){
+            s /= 2;
+            t /= 2;
+            e *= 2;
+        }
+        int x = s;
+        int y = t;
+        int uX = 1;
+        int vX = 0;
+        int uY = 0;
+        int vY = 1;
+
+        while(x!=0){
+            while(x%2==0){
+                x/=2;
+                if(uX%2==0 && vX%2==0){
+                    uX /= 2;
+                    vX /= 2;
+                }else{
+                    uX = (uX+t)/2;
+                    vX = (vX-s)/2;
+                }
+            }
+            while(y%2==0){
+                y/=2;
+                if(uY%2==0 && vY%2==0){
+                    uY /= 2;
+                    vY /= 2;
+                }else{
+                    uY = (uY+t)/2;
+                    vY = (vY-s)/2;
+                }
+            }
+            if(x>=y){
+                x=x-y;
+                uX = uX - uY;
+                vX = vX - vY;
+            }else {
+                y=y-x;
+                uY = uY - uX;
+                vY = vY - vX;
+            }
+        }
+
+        return "gcd("+a+","+b+")="+e*y+"="+uY +"."+a+ vY+"."+b;
 
     }
 
